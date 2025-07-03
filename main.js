@@ -116,7 +116,7 @@ function draw() {
 	drawInstruction();
 	drawGuesses();
 	drawButtons();
-  // drawDebug();
+  drawDebug();
 }
 
 function windowResized() {

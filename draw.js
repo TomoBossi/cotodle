@@ -37,7 +37,7 @@ function mouseClicked() {
 			}
 		}
 	} 
-	if (mouseInside(enterGuess)) {
+	if (!gameEnded && mouseInside(enterGuess)) {
 		submitGuess();
 	}
 }
