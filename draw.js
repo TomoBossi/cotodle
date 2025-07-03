@@ -38,7 +38,7 @@ function mouseClicked() {
 		}
 	} 
 	if (!gameEnded && mouseInside(enterGuess)) {
-		submitGuess();
+		submitGuess(price);
 	}
 }
 
