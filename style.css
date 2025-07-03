@@ -1,0 +1,13 @@
+html, body {
+  background-color: rgb(40,40,40);
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+img {
+  border-radius: 10px;
+}
