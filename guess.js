@@ -11,20 +11,18 @@ function keyPressed() {
     } else if (keyCode === 13) { // enter
       submitGuess(price);
     }
-    // clamp
-    guess = constrain(guess, 0, maxGuess);
   }
 }
 
 function numberPressed(number) {
-  guess = parseInt(guess + `${number}`);
+  guess = constrain(parseInt(guess + `${number}`), 0, maxGuess);
   if (buttons[number].enabled) {
     buttonsHighlightOpacity[number+1] = 1;
   }
 }
 
 function backspacePressed() {
-  guess = Math.floor(guess/10);
+  guess = constrain(Math.floor(guess/10), 0, maxGuess);
   if (buttons[-1].enabled) {
     buttonsHighlightOpacity[0] = 1;
   }
