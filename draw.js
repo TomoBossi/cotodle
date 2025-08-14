@@ -234,9 +234,11 @@ function drawInstruction(s=scaleFactor, x=width/2, y=scaleFactor*480) {
 	} else if (!gameEnded) {
 		text(`Adiviná el precio del producto (${guessResults.length+1}/${numGuesses})`, x, y);
 	} else if (gameWon) {
-		text(`Ganaste! El precio era $${formatPrice(price)} (´㉨\`)`, x, y);
+		const gameWonMessage = currentDay in easterEgg ? easterEgg[currentDay].gameWonMessage : `Ganaste! El precio era $${formatPrice(price)} (´㉨\`)`;
+		text(gameWonMessage, x, y);
 	} else {
-		text(`Perdiste! El precio era $${formatPrice(price)} (´㉨\`)`, x, y);
+		const gameLostMessage = currentDay in easterEgg ? easterEgg[currentDay].gameLostMessage : `Perdiste! El precio era $${formatPrice(price)} (´㉨\`)`;
+		text(gameLostMessage, x, y);
 	}
 }
 
@@ -398,7 +400,8 @@ function drawDisplayName(s=scaleFactor, x=width/2, y=scaleFactor*375) {
 		text("...", x, y+s*57.5);
 	} else {
 		const maxCharsPerLine = 29;
-		const lines = bestLineSplit(data.displayName.trim().replace(/[\n\r\t]/g, "").replace(/\s+/g, " "), maxCharsPerLine);
+		const name = currentDay in easterEgg ? easterEgg[currentDay].name : data.displayName;
+		const lines = bestLineSplit(name.trim().replace(/[\n\r\t]/g, "").replace(/\s+/g, " "), maxCharsPerLine);
 		for (let i = 0; i < lines.length; i++) {
 			if (lines[i].length > maxCharsPerLine) {
 				lines[i] = lines[i].slice(0, lines[i].length-3) + "...";
@@ -449,7 +452,8 @@ function drawDisplayNameTooltip(s=scaleFactor, x=width/2, y=scaleFactor*370) {
 	
 	if (data && displayNameTooltipOpacity) {
 		const maxCharsPerLine = 36;
-		const lines = bestLineSplit(data.displayName.trim().replace(/[\n\r\t]/g, "").replace(/\s+/g, " "), maxCharsPerLine);
+		const name = currentDay in easterEgg ? easterEgg[currentDay].name : data.displayName;
+		const lines = bestLineSplit(name.trim().replace(/[\n\r\t]/g, "").replace(/\s+/g, " "), maxCharsPerLine);
 		const numLines = lines.length;
 		noStroke();
 		fill(255, displayNameTooltipOpacity*180);

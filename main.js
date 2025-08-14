@@ -8,6 +8,16 @@ const isMobile = window.navigator.userAgent.match(/Android/i) ||
 	window.navigator.userAgent.match(/IEMobile/i) ||
 	window.navigator.userAgent.match(/Opera Mini/i);
 
+const easterEgg = {
+	20313: {
+		price: 9999999999,
+		imgUrl: "https://lh3.googleusercontent.com/d/1t8ZGXMvg5j493zIWBGRZmHMKdyTXnnHE=w1000",
+		name: "Camión de COTO en el ocaso entrerriano (con pescador)",
+		gameWonMessage: "",
+		gameLostMessage: "Perdiste! El producto no tiene precio :)"
+	}
+};
+
 let history = JSON.parse(localStorage.getItem("history") ?? "{}");
 let state = JSON.parse(
   localStorage.getItem("state") ?? '{"day":0,"guesses":[]}'
@@ -26,6 +36,7 @@ let gameWon = false;
 let gameLost = false;
 
 let data = null;
+let imgUrl = "";
 let img = null;
 let avgR = 0;
 let avgG = 0;
@@ -61,7 +72,7 @@ async function setup() {
       //       parseInt(json.discount.precioDescuento.replace("$", ""))
       //     )
       //   : parseInt(json.activePrice);
-			price = parseInt(json.activePrice);
+			price = currentDay in easterEgg ? easterEgg[currentDay].price : parseInt(json.activePrice);
       if (currentDay === state.day) {
         for (let guess of state.guesses) {
           guessResults.push(getRatioCategory(guess, price));
@@ -74,9 +85,10 @@ async function setup() {
         };
       }
       updateGameFlags();
-			imgLink = createA(json.imageUrl.replace("large", "full"), "", "_blank");
-			imgLink.attribute("title", "Abrir en una nueva pestaña")
-      img = await loadImage(json.imageUrl);
+			imgUrl = currentDay in easterEgg ? easterEgg[currentDay].imgUrl : json.imageUrl;
+			imgLink = createA(imgUrl.replace("large", "full"), "", "_blank");
+			imgLink.attribute("title", "Abrir en una nueva pestaña");
+      img = await loadImage(imgUrl);
 
 			img.loadPixels();
 			let s = 0;
