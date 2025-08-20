@@ -48,6 +48,7 @@ let price = null;
 let currentDay = 0;
 
 let refreshGUI = false;
+let initGUI = false;
 const bgCol = 240;
 
 const date = new Date().toLocaleString("en-US", {
@@ -61,6 +62,7 @@ async function setup() {
   createCanvas(windowWidth, windowHeight);
   reScale();
   smooth();
+  frameRate(60);
   angleMode(DEGREES);
   rectMode(CENTER);
   imageMode(CENTER);
@@ -137,7 +139,7 @@ async function setup() {
     });
 }
 
-function refresh() {
+function init() {
   background(bgCol);
   updateLoadingTransition();
   drawImg();
@@ -145,18 +147,28 @@ function refresh() {
   drawLogo();
   drawDate();
   drawDisplayName();
-  // drawDisplayNameTooltip();
   drawInstruction();
   drawGuesses();
   drawButtons();
 }
 
+function refresh() {
+  updateLoadingTransition();
+  drawImg();
+  drawImgZoom();
+  drawDisplayName();
+  drawInstruction();
+  drawGuesses();
+}
+
 function draw() {
-  if (frameCount === 1 || refreshGUI) {
+  if (frameCount === 1 || initGUI) {
+    initGUI = false;
+    init();
+  } else if (refreshGUI) {
 		refreshGUI = false;
     refresh();
   } else {
-    updateLoadingTransition();
     drawGuesses();
     drawButtons();
   }
@@ -179,5 +191,5 @@ function reScale() {
   ) {
     scaleFactor = min(width / targetWidth, height / targetHeight);
   }
-  refreshGUI = true;
+  initGUI = true;
 }

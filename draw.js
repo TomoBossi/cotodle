@@ -324,6 +324,8 @@ function drawInstruction(
   y = scaleFactor * 480
 ) {
   noStroke();
+  fill(bgCol);
+  rect(x, y - 5*s, 320*s, 30*s);
   textSize(s * 15);
   textAlign(CENTER);
   textFont(secondaryMonoFont);
@@ -487,8 +489,15 @@ function drawDate(
 
 function drawImg(s = scaleFactor, x = width / 2, y = scaleFactor * 132.5) {
   const imgSize = 300;
-  fill(255, 0, 0);
   noStroke();
+  fill(bgCol);
+  rect(
+    x,
+    y + s * (imgSize / 2 - 40),
+    s * (imgSize + 10),
+    s * (imgSize - 30 + 10)
+  );
+  fill(255, 0, 0);
   rect(
     x,
     y + s * (imgSize / 2 - 40),
@@ -528,6 +537,10 @@ function drawDisplayName(
   x = width / 2,
   y = scaleFactor * 375
 ) {
+  noStroke();
+  fill(bgCol);
+  rect(x, y+50*s, 320*s, 70*s);
+
   displayName = {
     pos: createVector(x, y + s * 50),
     width: s * (300 + 8),
