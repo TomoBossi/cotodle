@@ -1,28 +1,34 @@
 let guess = 0;
 const maxGuess = 999999999;
+let lowerBound = 0;
+let upperBound = maxGuess + 1;
 
 function keyPressed() {
   if (!gameEnded) {
     const numStart = keyCode >= 96 ? 96 : 48;
-    if (numStart <= keyCode && keyCode < numStart + 10) { // numbers
+    if (numStart <= keyCode && keyCode < numStart + 10) {
+      // numbers
       numberPressed(keyCode - numStart);
-    } else if (keyCode === 8) { // backspace
+    } else if (keyCode === 8) {
+      // backspace
       backspacePressed();
-    } else if (keyCode === 13) { // enter
+    } else if (keyCode === 13) {
+      // enter
       submitGuess(price);
     }
+    refreshGUI = true;
   }
 }
 
 function numberPressed(number) {
   guess = constrain(parseInt(guess + `${number}`), 0, maxGuess);
   if (buttons[number].enabled) {
-    buttonsHighlightOpacity[number+1] = 1;
+    buttonsHighlightOpacity[number + 1] = 1;
   }
 }
 
 function backspacePressed() {
-  guess = constrain(Math.floor(guess/10), 0, maxGuess);
+  guess = constrain(Math.floor(guess / 10), 0, maxGuess);
   if (buttons[-1].enabled) {
     buttonsHighlightOpacity[0] = 1;
   }
@@ -49,9 +55,15 @@ function updateGameFlags() {
 }
 
 function submitGuess(target) {
-  if (!gameEnded && guess) {
+  if (!gameEnded && guess < upperBound && guess > lowerBound) {
     updateState();
-    guessResults.push(getRatioCategory(guess, target));
+    const result = getRatioCategory(guess, target);
+    guessResults.push(result);
+    if (result < 0) {
+      lowerBound = guess;
+    } else {
+      upperBound = guess;
+    }
     resetGuess();
     updateGameFlags();
     if (gameEnded) {
