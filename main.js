@@ -169,6 +169,7 @@ function draw() {
 		refreshGUI = false;
     refresh();
   } else {
+    drawInstruction();
     drawGuesses();
     drawButtons();
   }
